@@ -6,7 +6,6 @@ from .middleware import register_middleware
 from .utils.errors import register_exception_handler
 from .utils.logger import save_log_to_db
 from datetime import datetime, timezone, UTC
-from werkzeug.exceptions import HTTPException
 
 def create_app(config_name='default'):
     app = Flask(__name__)
@@ -27,7 +26,6 @@ def create_app(config_name='default'):
                 return self.task(*args, **kwargs)
     celery.Task = ContextTask
 
-
     #注册所有自定义中间件
     register_middleware(app)
 
@@ -46,7 +44,6 @@ def create_app(config_name='default'):
         }
         save_log_to_db(log)
 
-
     @app.after_request
     def after_request(response):
         log = {
@@ -57,7 +54,6 @@ def create_app(config_name='default'):
         }
         save_log_to_db(log)
         return response
-
 
 
     return app
